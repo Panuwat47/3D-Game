@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://d0jir87b8t6ke"]
+
+[ext_resource type="Texture2D" uid="uid://da70gdxd3j5ex" path="res://texture/2b5973de39eb2644364dc0cc317f7dd3.jpg" id="1_itxqv"]
+[ext_resource type="PackedScene" uid="uid://cfhspb6gfm050" path="res://scene/player.tscn" id="2_v0l8b"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_v0l8b"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wp4xf"]
+albedo_texture = ExtResource("1_itxqv")
+uv1_scale = Vector3(10, 10, 10)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_brvut"]
+
+[node name="main" type="Node3D"]
+
+[node name="floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(600, 0, 0, 0, 600, 0, 0, 0, 600, 0, 0, 0)
+mesh = SubResource("PlaneMesh_v0l8b")
+surface_material_override/0 = SubResource("StandardMaterial3D_wp4xf")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(60, 0, 0, 0, 60, 0, 0, 0, 60, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0330876, 0)
+shape = SubResource("WorldBoundaryShape3D_brvut")
+debug_color = Color(0, 0, 1, 1)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="StaticBody3D"]
+transform = Transform3D(0.0285714, 0, 0, 0, -1.2489e-09, 0.0285714, 0, -0.0285714, -1.2489e-09, 0, 6.23392, 0)
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.516997, 0.855987, 0, -0.855987, 0.516997, -9.92648, 210.918, 300.688)
+
+[node name="pivot" type="Node3D" parent="Marker3D"]
+
+[node name="player" parent="." instance=ExtResource("2_v0l8b")]
+transform = Transform3D(12.215, 0, 0, 0, 12.215, 0, 0, 0, 12.215, -6.45291, 3.6444, 153.095)

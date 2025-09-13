@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=3 uid="uid://cfhspb6gfm050"]
+
+[ext_resource type="Script" uid="uid://bkt7jexy75opg" path="res://player/player.gd" id="1_hjaqi"]
+[ext_resource type="PackedScene" uid="uid://bka5508fity4i" path="res://models/Frog.glb" id="2_fvtld"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hjaqi"]
+animation = &"CharacterArmature|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fvtld"]
+animation = &"CharacterArmature|Jump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s4jxa"]
+animation = &"CharacterArmature|Jump_Land"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ct4mp"]
+animation = &"CharacterArmature|Run"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_hjaqi"]
+states/CharacterArmature|Idle/node = SubResource("AnimationNodeAnimation_hjaqi")
+states/CharacterArmature|Idle/position = Vector2(353, 163)
+states/CharacterArmature|Jump/node = SubResource("AnimationNodeAnimation_fvtld")
+states/CharacterArmature|Jump/position = Vector2(583, 96)
+states/CharacterArmature|Jump_Land/node = SubResource("AnimationNodeAnimation_s4jxa")
+states/CharacterArmature|Jump_Land/position = Vector2(934, 125)
+states/CharacterArmature|Run/node = SubResource("AnimationNodeAnimation_ct4mp")
+states/CharacterArmature|Run/position = Vector2(626, 175)
+states/End/position = Vector2(1131, 34)
+states/Start/position = Vector2(51, 34)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ct4mp"]
+radius = 0.61177
+height = 1.86443
+
+[node name="player" type="CharacterBody3D"]
+disable_mode = 1
+script = ExtResource("1_hjaqi")
+move_speed = 150.0
+gravity = 200.0
+jump_force = 100.0
+rotate_speed = 3.0
+camera_rig_path = NodePath("CameraRing")
+follow_smooth = 3.0
+camera_path = NodePath("CameraRing/Camera3D")
+
+[node name="pivot" type="Node3D" parent="."]
+
+[node name="Root Scene" parent="pivot" instance=ExtResource("2_fvtld")]
+
+[node name="Skeleton3D" parent="pivot/Root Scene/RootNode/CharacterArmature" index="0"]
+bones/1/rotation = Quaternion(1.17003e-05, 0.705806, 0.708405, 1.20267e-05)
+bones/3/rotation = Quaternion(-3.5527e-15, 1.19209e-07, -2.52435e-29, 1)
+bones/5/rotation = Quaternion(0.166831, 4.319e-07, 1.0312e-07, 0.985986)
+bones/6/rotation = Quaternion(0.0961896, -8.28473e-07, 2.15124e-08, 0.995363)
+bones/7/rotation = Quaternion(0.351925, 9.69401e-07, 1.50234e-07, 0.936028)
+bones/8/rotation = Quaternion(-0.390719, -0.000253907, 0.000107202, 0.92051)
+bones/11/rotation = Quaternion(0.520466, 0.503343, 0.480823, -0.494541)
+bones/12/rotation = Quaternion(0.022454, 0.265992, -0.20975, 0.940611)
+bones/23/rotation = Quaternion(-0.0766122, -0.00152704, -0.0198675, 0.996862)
+bones/29/rotation = Quaternion(0.520466, -0.503343, -0.480823, -0.494541)
+bones/30/rotation = Quaternion(0.022454, -0.265992, 0.20975, 0.940611)
+bones/41/rotation = Quaternion(-0.0766122, 0.00152706, 0.0198675, 0.996862)
+bones/46/rotation = Quaternion(0.965041, 0.00858456, 0.00207861, 0.26195)
+bones/46/scale = Vector3(0.999976, 0.999984, 0.999932)
+bones/47/rotation = Quaternion(0.517018, 0.0063198, 0.00850598, 0.855909)
+bones/49/rotation = Quaternion(0.965041, -0.00858596, -0.00207811, 0.26195)
+bones/49/scale = Vector3(0.999976, 0.999984, 0.999932)
+bones/50/rotation = Quaternion(0.517018, -0.00631982, -0.00850602, 0.855909)
+bones/54/rotation = Quaternion(-1.20709e-05, 0.705806, 0.708405, -1.16574e-05)
+
+[node name="AnimationTree" type="AnimationTree" parent="pivot/Root Scene"]
+tree_root = SubResource("AnimationNodeStateMachine_hjaqi")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312821, 1.10099, 0.316461)
+shape = SubResource("CapsuleShape3D_ct4mp")
+
+[node name="CameraRing" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraRing"]
+transform = Transform3D(-0.996195, 0.0509824, -0.0706888, 0, 0.811064, 0.584958, 0.0871556, 0.582732, -0.807978, 0, 5.134, -6.36682)
+current = true
+
+[editable path="pivot/Root Scene"]
