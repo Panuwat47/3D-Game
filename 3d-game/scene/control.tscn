@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://uo50slnaquln"]
+
+[ext_resource type="Script" uid="uid://c0s630ybwpudr" path="res://scene/control.gd" id="1_mnow5"]
+[ext_resource type="Texture2D" uid="uid://da70gdxd3j5ex" path="res://texture/2b5973de39eb2644364dc0cc317f7dd3.jpg" id="1_vrdfc"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mnow5")
+
+[node name="2b5973De39Eb2644364Dc0Cc317f7Dd3" type="Sprite2D" parent="."]
+position = Vector2(560, 477)
+scale = Vector2(1.24699, 1.24699)
+texture = ExtResource("1_vrdfc")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.5
+offset_top = -197.0
+offset_right = 52.5
+offset_bottom = -174.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 96
+text = "Game Over!!!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.5
+offset_top = -15.5
+offset_right = 32.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 71
+text = "Restart"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

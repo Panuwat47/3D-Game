@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://wjh7n1b3mo5n"]
+
+[ext_resource type="Script" uid="uid://bacewsqhe4pow" path="res://enemy/enemy.gd" id="1_ofsxj"]
+[ext_resource type="PackedScene" uid="uid://cfgdly1lfeswx" path="res://models/Demon.glb" id="2_ofsxj"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ofsxj"]
+animation = &"CharacterArmature|Fast_Flying"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ppra6"]
+states/CharacterArmature|Run/node = SubResource("AnimationNodeAnimation_ofsxj")
+states/CharacterArmature|Run/position = Vector2(464, 86)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_p200p"]
+radius = 0.63533
+
+[node name="Enemy" type="CharacterBody3D" groups=["mob"]]
+transform = Transform3D(10.72, 0, 0, 0, 10.72, 0, 0, 0, 10.72, 0, -11.7867, 0)
+collision_layer = 2
+collision_mask = 24
+script = ExtResource("1_ofsxj")
+move_speed = 80.0
+
+[node name="pivot" type="Node3D" parent="."]
+
+[node name="Root Scene" parent="pivot" instance=ExtResource("2_ofsxj")]
+
+[node name="Skeleton3D" parent="pivot/Root Scene/RootNode/CharacterArmature" index="0"]
+bones/1/position = Vector3(3.19718e-05, 0.0143152, -0.00111039)
+bones/1/rotation = Quaternion(-0.0146272, -0.000937792, 0.00328756, 0.999887)
+bones/2/rotation = Quaternion(0.236385, 0.00018451, -0.00341352, 0.971653)
+bones/3/rotation = Quaternion(0.571666, -0.000226434, -0.000156937, 0.820487)
+bones/6/rotation = Quaternion(-0.361545, -0.477421, -0.520684, 0.608477)
+bones/7/rotation = Quaternion(0.0440548, -0.115107, -0.662598, 0.738765)
+bones/13/rotation = Quaternion(-0.00551654, -0.000955274, -0.170645, 0.985317)
+bones/17/rotation = Quaternion(-0.0796468, 0.0165571, 0.202855, 0.975824)
+bones/24/rotation = Quaternion(-0.263098, 0.191851, -0.551764, 0.767808)
+bones/25/rotation = Quaternion(0.0997322, -0.695578, -0.121162, 0.701102)
+bones/26/rotation = Quaternion(0.0757427, -0.00222824, 0.0365732, 0.996454)
+bones/30/rotation = Quaternion(-0.361545, 0.477421, 0.520683, 0.608477)
+bones/31/rotation = Quaternion(0.0440549, 0.115107, 0.662598, 0.738765)
+bones/37/rotation = Quaternion(-0.00551651, 0.000955294, 0.170645, 0.985317)
+bones/48/rotation = Quaternion(-0.26326, -0.188611, 0.547243, 0.771781)
+bones/49/rotation = Quaternion(0.0997322, 0.695578, 0.121162, 0.701102)
+bones/50/rotation = Quaternion(0.0757426, 0.00222826, -0.0365733, 0.996454)
+bones/53/position = Vector3(3.19718e-05, 0.0143464, -0.0011128)
+bones/53/rotation = Quaternion(0.999617, -0.0126358, -0.00829448, -0.0231703)
+
+[node name="AnimationTree" type="AnimationTree" parent="pivot/Root Scene"]
+tree_root = SubResource("AnimationNodeStateMachine_ppra6")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0329104, 1.74806, 0.0344141)
+shape = SubResource("SphereShape3D_p200p")
+
+[editable path="pivot/Root Scene"]

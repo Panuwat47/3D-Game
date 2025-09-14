@@ -5,41 +5,36 @@ extends CharacterBody3D
 @export var jump_force: float = 10.0
 @export var stomp_bounce: float = 8.0
 @export var rotate_speed: float = 10.0
-@export var camera_rig_path: NodePath  # ชี้ไปที่ $"CameraRig"
-@export var follow_smooth := 1.0       # ค่าความนุ่มในการตาม (ยิ่งมากยิ่งไว)
-@export var camera_path: NodePath
 
-@onready var cam: Camera3D = get_node(camera_path)
-@onready var camera_rig: Node3D = get_node(camera_rig_path)
+@onready var score_label: Label3D = %Label3D
 @onready var visual: Node3D = $pivot
 @onready var anim_tree: AnimationTree = $"pivot/Root Scene/AnimationTree"
 var sm: AnimationNodeStateMachinePlayback
-
 var stomped_this_frame := false
+var score_value: int = 0 
+
 
 func _ready() -> void:
 	add_to_group("player")
 	anim_tree.active = true
 	sm = anim_tree.get("parameters/playback")
+	_update_score_label()
+
+func create_player(point):
+	position = point
+	show()
 
 func _physics_process(delta: float) -> void:
-	var input_vec := Input.get_vector("ui_left","ui_right","ui_up","ui_down")
-	input_vec = input_vec.normalized()
-	var move_dir := Vector3.ZERO
-	if input_vec.length() > 0.0:
-		var forward := cam.global_transform.basis.z
-		var right := cam.global_transform.basis.x
-		forward.y = 0.0
-		right.y = 0.0
-		forward = forward.normalized()
-		right = right.normalized()
-		# ผสมทิศ: ขวา/ซ้าย = x, หน้า/หลัง = y (ของ input_vec)
-		move_dir = (right * input_vec.x + forward * input_vec.y).normalized()
+	var input_dir := Vector3(
+		Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
+		0,
+		Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	)
+	if input_dir.length() > 0.0:
+		input_dir = input_dir.normalized()
 
-	# ตั้งความเร็วแนวนอนให้วิ่งตามทิศของกล้อง
-	var horiz_vel := move_dir * move_speed
-	velocity.x = horiz_vel.x
-	velocity.z = horiz_vel.z
+	velocity.x = input_dir.x * move_speed
+	velocity.z = input_dir.z * move_speed
 
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -48,12 +43,13 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-	# หมุนให้หันตามทิศ
-	if move_dir.length() > 0.001:
-		var target_yaw := atan2(move_dir.x, move_dir.z)
-		rotation.y = lerp_angle(rotation.y, target_yaw, 5.0 * delta)
-		
-		
+	# หันหน้าตามทิศที่กำลังเดิน
+	var move_xz := Vector3(velocity.x, 0, velocity.z)
+	if move_xz.length() > 0.05:
+		var target_yaw := atan2(move_xz.x, move_xz.z)
+		# ถ้าโมเดลของคุณหันเริ่มต้นไปทาง -Z อยู่แล้ว ให้บวก PI ชดเชย:
+		#target_yaw += PI
+		visual.rotation.y = lerp_angle(visual.rotation.y, target_yaw, rotate_speed * delta)
 	# เลือกสถานะอนิเมชัน
 	_update_animation_state()
 
@@ -79,7 +75,7 @@ func _update_animation_state() -> void:
 	if speed_xz > 0.1:
 		sm.travel("CharacterArmature|Run")
 		# ถ้าต้องการปรับความเร็วเล่นอนิเมชันตามความเร็วเดิน:
-		anim_tree.set("parameters/Run/TimeScale/scale", clamp(speed_xz / move_speed, 0.6, 1.4))
+		anim_tree.set("parameters/CharacterArmature|Run/TimeScale/scale", clamp(speed_xz / move_speed, 0.6, 1.4))
 	else:
 		sm.travel("CharacterArmature|Idle")
 
@@ -89,6 +85,18 @@ func _on_Foot_body_entered(body: Node) -> void:
 			body.defeat()
 		velocity.y = stomp_bounce
 		stomped_this_frame = true
+		add_score(1)
 
 func die() -> void:
+	get_tree().change_scene_to_file("res://scene/control.tscn")
+	queue_free()
+	$"../enemyTimer".stop()
 	print("Player died")
+
+func add_score(amount: int) -> void: 
+	score_value += amount 
+	_update_score_label()
+	
+func _update_score_label() -> void: 
+	if is_instance_valid(score_label): 
+		score_label.text = "Score: %d" % score_value

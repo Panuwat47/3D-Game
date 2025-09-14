@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://oqd4jdnuywvk"
-path="res://.godot/imported/Robot Enemy Large.glb-f6ae14325c39889bd30fa20195ae9dfa.scn"
+uid="uid://cfgdly1lfeswx"
+path="res://.godot/imported/Demon.glb-97c272964a5e76008ab7feb8173b998d.scn"
 
 [deps]
 
-source_file="res://models/Robot Enemy Large.glb"
-dest_files=["res://.godot/imported/Robot Enemy Large.glb-f6ae14325c39889bd30fa20195ae9dfa.scn"]
+source_file="res://models/Demon.glb"
+dest_files=["res://.godot/imported/Demon.glb-97c272964a5e76008ab7feb8173b998d.scn"]
 
 [params]
 
@@ -34,7 +34,7 @@ animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
 "animations": {
-"CharacterArmature|Run": {
+"CharacterArmature|Fast_Flying": {
 "save_to_file/enabled": false,
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "",

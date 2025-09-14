@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cfhspb6gfm050"]
+[gd_scene load_steps=10 format=3 uid="uid://cfhspb6gfm050"]
 
 [ext_resource type="Script" uid="uid://bkt7jexy75opg" path="res://player/player.gd" id="1_hjaqi"]
 [ext_resource type="PackedScene" uid="uid://bka5508fity4i" path="res://models/Frog.glb" id="2_fvtld"]
@@ -31,16 +31,17 @@ states/Start/position = Vector2(51, 34)
 radius = 0.61177
 height = 1.86443
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_hjaqi"]
+size = Vector3(0.80719, 0.126343, 1)
+
 [node name="player" type="CharacterBody3D"]
 disable_mode = 1
+collision_mask = 10
 script = ExtResource("1_hjaqi")
 move_speed = 150.0
 gravity = 200.0
 jump_force = 100.0
 rotate_speed = 3.0
-camera_rig_path = NodePath("CameraRing")
-follow_smooth = 3.0
-camera_path = NodePath("CameraRing/Camera3D")
 
 [node name="pivot" type="Node3D" parent="."]
 
@@ -72,13 +73,18 @@ tree_root = SubResource("AnimationNodeStateMachine_hjaqi")
 anim_player = NodePath("../AnimationPlayer")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312821, 1.10099, 0.316461)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312821, 1.10099, -0.0812634)
 shape = SubResource("CapsuleShape3D_ct4mp")
 
-[node name="CameraRing" type="Node3D" parent="."]
+[node name="Foot" type="Area3D" parent="." groups=["player"]]
+visible = false
+collision_layer = 4
+collision_mask = 2
 
-[node name="Camera3D" type="Camera3D" parent="CameraRing"]
-transform = Transform3D(-0.996195, 0.0509824, -0.0706888, 0, 0.811064, 0.584958, 0.0871556, 0.582732, -0.807978, 0, 5.134, -6.36682)
-current = true
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Foot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0115662, 0.166321, 0)
+shape = SubResource("BoxShape3D_hjaqi")
+
+[connection signal="body_entered" from="Foot" to="." method="_on_Foot_body_entered"]
 
 [editable path="pivot/Root Scene"]
