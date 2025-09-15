@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://uo50slnaquln"]
+[gd_scene load_steps=4 format=3 uid="uid://uo50slnaquln"]
 
 [ext_resource type="Script" uid="uid://c0s630ybwpudr" path="res://scene/control.gd" id="1_mnow5"]
 [ext_resource type="Texture2D" uid="uid://da70gdxd3j5ex" path="res://texture/2b5973de39eb2644364dc0cc317f7dd3.jpg" id="1_vrdfc"]
+[ext_resource type="AudioStream" uid="uid://hgnneppi21hi" path="res://sound/8-bit-video-game-lose-sound-version-1-145828.mp3" id="3_f676y"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -50,5 +51,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 71
 text = "Restart"
+
+[node name="death" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_f676y")
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

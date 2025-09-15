@@ -91,7 +91,7 @@ func die() -> void:
 	get_tree().change_scene_to_file("res://scene/control.tscn")
 	queue_free()
 	$"../enemyTimer".stop()
-	print("Player died")
+	
 
 func add_score(amount: int) -> void: 
 	score_value += amount 

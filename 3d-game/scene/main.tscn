@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://d0jir87b8t6ke"]
+[gd_scene load_steps=11 format=3 uid="uid://d0jir87b8t6ke"]
 
 [ext_resource type="Script" uid="uid://nlkrkrdctj1w" path="res://scene/main.gd" id="1_brvut"]
 [ext_resource type="Texture2D" uid="uid://da70gdxd3j5ex" path="res://texture/2b5973de39eb2644364dc0cc317f7dd3.jpg" id="1_itxqv"]
 [ext_resource type="PackedScene" uid="uid://cfhspb6gfm050" path="res://scene/player.tscn" id="2_v0l8b"]
 [ext_resource type="PackedScene" uid="uid://wjh7n1b3mo5n" path="res://enemy/enemy.tscn" id="3_wp4xf"]
+[ext_resource type="AudioStream" uid="uid://dvqh7ow4msm7i" path="res://sound/game-background-359782.mp3" id="5_0ha60"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_v0l8b"]
 
@@ -103,7 +104,7 @@ wait_time = 5.0
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.730162, 0.683274, 0, -0.683274, 0.730162, 7.93616, 55.4112, 265.508)
 text = "นายภานุวัชร์ นุ่นหลักคำ"
-font_size = 3750
+font_size = 3500
 
 [node name="Label3D" type="Label3D" parent="Label3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25989, -28.3836, -8.99396)
@@ -111,7 +112,10 @@ text = "663380289-3"
 font_size = 3750
 
 [node name="PlayerMarker" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 305.33)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 330.979)
+
+[node name="Kucuk-kurbaga-205928" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_0ha60")
 
 [connection signal="timeout" from="enemyTimer" to="." method="_on_enemytimer_timeout"]
 [connection signal="timeout" from="labeltimer" to="." method="_on_labeltimer_timeout"]

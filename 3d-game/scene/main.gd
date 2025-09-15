@@ -10,6 +10,7 @@ func _ready() -> void:
 	$player.create_player($PlayerMarker.position)
 	$enemyTimer.start()
 	$labeltimer.start()
+	$"Kucuk-kurbaga-205928".play()
 
 func _on_enemytimer_timeout() -> void: 
 	var _mob = mob_scene.instantiate()
